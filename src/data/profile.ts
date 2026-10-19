@@ -8,7 +8,7 @@ export type LinkItem = {
 export const profile = {
   name: "김동석",
   bio: "AI의 신 김동석",
-  image: "/profile.svg",
+  image: "/profile.jpg",
 };
 
 // TODO: url은 더미 값입니다. 실제 내 계정 주소로 교체하세요.
