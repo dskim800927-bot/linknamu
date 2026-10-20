@@ -26,7 +26,7 @@ type LinkCardProps = {
   title: string;
   url: string;
   brand?: Brand;
-  count?: number;
+  count: number;
   onClick: () => void;
 };
 
@@ -45,14 +45,12 @@ export default function LinkCard({ title, url, brand, count, onClick }: LinkCard
         {brand && <BrandIcon brand={brand} />}
         {title}
       </span>
-      {count !== undefined && (
-        <span
-          className={`absolute right-5 font-sans text-xs tabular-nums ${brand ? "text-white/75" : "text-stone-400"}`}
-          aria-label={`클릭 ${count}회`}
-        >
-          {count.toLocaleString()}
-        </span>
-      )}
+      <span
+        className={`absolute right-5 font-sans text-xs tabular-nums ${brand ? "text-white/75" : "text-stone-400"}`}
+        aria-label={`클릭 ${count.toLocaleString()}회`}
+      >
+        {count.toLocaleString()}회
+      </span>
     </a>
   );
 }
