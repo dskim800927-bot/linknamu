@@ -38,6 +38,7 @@ export default function LinkList({ links }: { links: LinkItem[] }) {
           <LinkCard
             title={link.title}
             url={link.url}
+            brand={link.brand}
             count={counts ? (counts[link.id] ?? 0) : undefined}
             onClick={() => recordClick(link.id)}
           />

@@ -23,7 +23,7 @@ export default function ThemeToggle() {
       type="button"
       onClick={toggle}
       aria-label={isDark ? "밝은 화면으로 전환" : "어두운 화면으로 전환"}
-      className="rounded-full border border-gray-300 p-2 text-lg leading-none transition hover:bg-gray-100 dark:border-gray-600 dark:hover:bg-gray-800"
+      className="rounded-full border border-white/70 bg-white/50 p-2.5 text-base leading-none shadow-sm backdrop-blur-md transition hover:bg-white/70 dark:border-white/10 dark:bg-white/10 dark:hover:bg-white/15"
     >
       {isDark ? "☀️" : "🌙"}
     </button>
