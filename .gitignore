@@ -34,3 +34,9 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# 개인 사진 원본
+kakao.png
+
+# Claude Code
+.claude/

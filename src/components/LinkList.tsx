@@ -5,13 +5,22 @@ import type { LinkItem } from "@/data/profile";
 import LinkCard from "./LinkCard";
 
 export default function LinkList({ links }: { links: LinkItem[] }) {
-  const [counts, setCounts] = useState<Record<string, number> | null>(null);
+  // 데이터를 받기 전에는 모든 링크를 0회로 표시합니다.
+  const [counts, setCounts] = useState<Record<string, number>>({});
 
   useEffect(() => {
-    fetch("/api/clicks")
-      .then((res) => res.json())
-      .then((data) => setCounts(data.counts ?? {}))
-      .catch(() => setCounts(null));
+    fetch("/api/clicks", { cache: "no-store" })
+      .then((res) => (res.ok ? res.json() : Promise.reject(res.status)))
+      .then((data: { counts?: Record<string, number> }) => {
+        const server = data.counts ?? {};
+        // 조회 응답보다 먼저 눌린 클릭이 사라지지 않도록 더 큰 값을 유지
+        setCounts((prev) => {
+          const next = { ...server };
+          for (const [id, n] of Object.entries(prev)) next[id] = Math.max(next[id] ?? 0, n);
+          return next;
+        });
+      })
+      .catch(() => {}); // 실패하면 0회(또는 로컬에서 올린 값)를 그대로 둡니다.
   }, []);
 
   const recordClick = (id: string) => {
@@ -28,7 +37,7 @@ export default function LinkList({ links }: { links: LinkItem[] }) {
         keepalive: true,
       }).catch(() => {});
     }
-    setCounts((prev) => (prev ? { ...prev, [id]: (prev[id] ?? 0) + 1 } : prev));
+    setCounts((prev) => ({ ...prev, [id]: (prev[id] ?? 0) + 1 }));
   };
 
   return (
@@ -38,7 +47,8 @@ export default function LinkList({ links }: { links: LinkItem[] }) {
           <LinkCard
             title={link.title}
             url={link.url}
-            count={counts ? (counts[link.id] ?? 0) : undefined}
+            brand={link.brand}
+            count={counts[link.id] ?? 0}
             onClick={() => recordClick(link.id)}
           />
         </li>
